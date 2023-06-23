@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otus-homework-service
+  labels:
+    app: otus-homework-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: otus-homework-service
+  template:
+    metadata:
+      labels:
+        app: otus-homework-service
+    spec:
+        containers:
+        - name: otus-homework-service
+          image: mrphelko/otus-ms-first:latest
+          ports:
+            - containerPort: 8000

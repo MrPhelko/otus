@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: otus-homework-service
+  labels:
+    app: otus-homework-service
+spec:
+  ports:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
