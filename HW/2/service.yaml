@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: otus-homework-service
   labels:
-    app: otus-homework
+    app: otus-homework-service
 spec:
   ports:
     - protocol: TCP
-      port: 9000
+      port: 8000
       targetPort: web
   type: NodePort

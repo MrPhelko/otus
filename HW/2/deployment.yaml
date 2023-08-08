@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: otus-homework-deployment
+  name: otus-homework-service
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: otus-homework
+      app: otus-homework-service
   template:
     metadata:
       labels:
-        app: otus-homework
+        app: otus-homework-service
     spec:
         containers:
         - name: otus-homework
