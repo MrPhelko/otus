@@ -14,7 +14,7 @@ spec:
     spec:
         containers:
         - name: otus-homework-service
-          image: mrphelko/otususersapp:20230810150351
+          image: mrphelko/otususersapp:20230810154030
           ports:
             - name: web
               containerPort: 8000

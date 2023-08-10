@@ -1,8 +1,25 @@
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Metrics;
+using OtusUsersApp;
 using OtusUsersApp.DB;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//builder.Services.AddOpenTelemetry()
+//    .WithMetrics(builder =>
+//    {
+//        builder.AddPrometheusExporter();
+
+//        builder.AddMeter("Microsoft.AspNetCore.Hosting",
+//                         "Microsoft.AspNetCore.Server.Kestrel");
+//        builder.AddView("http-server-request-duration",
+//            new ExplicitBucketHistogramConfiguration
+//            {
+//                Boundaries = new double[] { 0, 0.005, 0.01, 0.025, 0.05,
+//                       0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5, 10 }
+//            });
+//    });
 
 builder.Host.ConfigureAppConfiguration((hosting, config) =>
 {
@@ -22,6 +39,7 @@ var connectionString = GetConnectionStrings(builder.Configuration);
 // Add services to the container.
 builder.Services.AddDbContext<UsersContext>(o => 
                     o.UseNpgsql(connectionString));
+builder.Services.AddHealthChecks();
 
 builder.Services.AddControllers();
 
@@ -30,6 +48,9 @@ var app = builder.Build();
 InitializeDatabase(app);
 app.UseAuthorization();
 
+app.MapHealthChecks("/health");
+app.MapHealthChecks("/ready");
+app.UseMetricServer();
 app.MapControllers();
 
 app.Run();

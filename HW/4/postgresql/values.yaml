@@ -1,0 +1,7 @@
+# define default database user, name, and password for PostgreSQL deployment
+auth:
+  enablePostgresUser: true
+  postgresPassword: "StrongPassword"
+  username: "postgresql"
+  password: "AppPassword"
+  database: "otus_db"
