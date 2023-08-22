@@ -462,7 +462,7 @@
 	"variable": [
 		{
 			"key": "host",
-			"value": "localhost:5069",
+			"value": "arch.homework",
 			"type": "string"
 		},
 		{
