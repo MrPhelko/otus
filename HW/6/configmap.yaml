@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: appsettings
+data:
+  appsettings.json: |-
+    {
+      "ConnectionStrings": {
+        "Main": "Host=postgresql-dev;Database=otus_db;User Id={DB_USERNAME};Password={DB_PASSWORD};"
+      },
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft.AspNetCore": "Warning"
+        }
+      }
+    }

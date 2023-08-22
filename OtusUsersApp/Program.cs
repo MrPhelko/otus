@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Metrics;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using OtusUsersApp;
 using OtusUsersApp.DB;
 using Prometheus;
@@ -41,12 +43,13 @@ builder.Services.AddDbContext<UsersContext>(o =>
                     o.UseNpgsql(connectionString));
 builder.Services.AddHealthChecks();
 
+builder.Services.AddTransient<IJwtUtils, JwtUtils>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 InitializeDatabase(app);
-app.UseAuthorization();
+app.UseMiddleware<JwtMiddleware>();
 
 app.MapHealthChecks("/health");
 app.MapHealthChecks("/ready");
