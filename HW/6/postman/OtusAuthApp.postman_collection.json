@@ -14,6 +14,10 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Register first user\", function () {\r",
+							"    var json = JSON.parse(pm.request.body.toJSON().raw);\r",
+							"    console.log(json);\r",
+							"    pm.collectionVariables.set(\"firstLogin\", json.login);\r",
+							"    pm.collectionVariables.set(\"firstPassword\", json.password);\r",
 							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
 							"});"
 						],
@@ -26,7 +30,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"login\": \"test\",\r\n    \"email\": \"test@test.com\",\r\n    \"fullName\": \"Testov test\",\r\n    \"password\": \"super_hard_password_123\"\r\n}",
+					"raw": "{\r\n    \"login\": \"{{$randomUserName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"fullName\": \"{{$randomFullName}}\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -70,7 +74,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}/api/auth/login?login=test&password=super_hard_password_123",
+					"raw": "http://{{host}}/api/auth/login?login={{firstLogin}}&password={{firstPassword}}",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -83,11 +87,11 @@
 					"query": [
 						{
 							"key": "login",
-							"value": "test"
+							"value": "{{firstLogin}}"
 						},
 						{
 							"key": "password",
-							"value": "super_hard_password_123"
+							"value": "{{firstPassword}}"
 						}
 					]
 				}
@@ -103,6 +107,11 @@
 						"exec": [
 							"pm.test(\"Update first user\", function () {\r",
 							"    pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"    \r",
+							"    var json = JSON.parse(pm.request.body.toJSON().raw);\r",
+							"    console.log(json);\r",
+							"    pm.collectionVariables.set(\"firstEmail\", json.email);\r",
+							"    pm.collectionVariables.set(\"firstFullName\", json.fullName);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -120,7 +129,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"test@example.com\",\r\n    \"fullName\": \"Testov example\",\r\n    \"login\": \"\",\r\n    \"password\": \"'\"\r\n}",
+					"raw": "{\r\n    \"login\": \"{{$randomUserName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"fullName\": \"{{$randomFullName}}\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -128,7 +137,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{host}}/api/users/test",
+					"raw": "http://{{host}}/api/users/{{firstLogin}}",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -136,7 +145,7 @@
 					"path": [
 						"api",
 						"users",
-						"test"
+						"{{firstLogin}}"
 					]
 				}
 			},
@@ -152,9 +161,9 @@
 							"pm.test(\"Check first user\", function () {\r",
 							"    pm.expect(pm.response.code).to.be.oneOf([200]);\r",
 							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.email).to.eql(\"test@example.com\");\r",
-							"    pm.expect(jsonData.fullName).to.eql(\"Testov example\");;\r",
-							"    pm.expect(jsonData.login).to.eql(\"test\");\r",
+							"    pm.expect(jsonData.email).to.eql(pm.variables.get(\"firstEmail\"));\r",
+							"    pm.expect(jsonData.fullName).to.eql(pm.variables.get(\"firstFullName\"));\r",
+							"    pm.expect(jsonData.login).to.eql(pm.variables.get(\"firstLogin\"));\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -171,7 +180,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{host}}/api/users/test",
+					"raw": "http://{{host}}/api/users/{{firstLogin}}",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -179,7 +188,7 @@
 					"path": [
 						"api",
 						"users",
-						"test"
+						"{{firstLogin}}"
 					]
 				}
 			},
@@ -193,6 +202,10 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Register first user\", function () {\r",
+							"    var json = JSON.parse(pm.request.body.toJSON().raw);\r",
+							"    console.log(json);\r",
+							"    pm.collectionVariables.set(\"secondLogin\", json.login);\r",
+							"    pm.collectionVariables.set(\"secondPassword\", json.password);\r",
 							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
 							"});"
 						],
@@ -205,7 +218,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"login\": \"vasya\",\r\n    \"email\": \"vasya@test.com\",\r\n    \"fullName\": \"vasya test\",\r\n    \"password\": \"super_hard_password_123\"\r\n}",
+					"raw": "{\r\n    \"login\": \"{{$randomUserName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"fullName\": \"{{$randomFullName}}\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -249,7 +262,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}/api/auth/login?login=vasya&password=super_hard_password_123",
+					"raw": "http://{{host}}/api/auth/login?login={{secondLogin}}&password={{secondPassword}}",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -262,11 +275,11 @@
 					"query": [
 						{
 							"key": "login",
-							"value": "vasya"
+							"value": "{{secondLogin}}"
 						},
 						{
 							"key": "password",
-							"value": "super_hard_password_123"
+							"value": "{{secondPassword}}"
 						}
 					]
 				}
@@ -307,7 +320,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{host}}/api/users/test",
+					"raw": "http://{{host}}/api/users/{{firstLogin}}",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -315,7 +328,7 @@
 					"path": [
 						"api",
 						"users",
-						"test"
+						"{{firstLogin}}"
 					]
 				}
 			},
@@ -346,7 +359,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{host}}/api/users/test",
+					"raw": "http://{{host}}/api/users/{{firstLogin}}",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -354,7 +367,7 @@
 					"path": [
 						"api",
 						"users",
-						"test"
+						"{{firstLogin}}"
 					]
 				}
 			},
@@ -385,7 +398,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{host}}/api/users/test",
+					"raw": "http://{{host}}/api/users/{{firstLogin}}",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -393,7 +406,7 @@
 					"path": [
 						"api",
 						"users",
-						"test"
+						"{{firstLogin}}"
 					]
 				}
 			},
@@ -424,7 +437,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{host}}/api/users/vasya",
+					"raw": "http://{{host}}/api/users/{{secondLogin}}",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -432,7 +445,7 @@
 					"path": [
 						"api",
 						"users",
-						"vasya"
+						"{{secondLogin}}"
 					]
 				}
 			},
@@ -469,6 +482,40 @@
 			"key": "token",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwIiwibmJmIjoxNjkyNzAyNzI4LCJleHAiOjE2OTMzMDc1MjgsImlhdCI6MTY5MjcwMjcyOH0.sdhR3nQhEgo5dCSREZPYBAgxUdWMK8__2eIpkyMLaJs",
 			"type": "string"
+		},
+		{
+			"key": "firstLogin",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "secondLogin",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "firstEmail",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "firstFullName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "firstPassword",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "secondPassword",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "firstEmail",
+			"value": ""
 		}
 	]
 }
